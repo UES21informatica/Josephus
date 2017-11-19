@@ -41,14 +41,14 @@ namespace Josephus
 
                     // Avanzo una posicion del salto.
                     indice++;
-
+                    DibujarArreglo(circulo, indice - 1, i);
+                    System.Threading.Thread.Sleep(500);
 
                 }
                 //Mato al soldado
-                DibujarArreglo(circulo, indice-1);
                 circulo[indice - 1] = 0;
                 personas--;
-                
+                DibujarArreglo(circulo, indice - 1, 9999);
                 System.Threading.Thread.Sleep(1000);
             }
             return circulo;
@@ -56,7 +56,7 @@ namespace Josephus
 
         internal void DibujarArreglo(int[] circulo)
         {
-            DibujarArreglo(circulo, 99999);
+            DibujarArreglo(circulo, 99999, 0);
         }
 
         public void imprimirTitulo()
@@ -70,20 +70,40 @@ namespace Josephus
 
 
 
-        private void DibujarArreglo(int[] circulo, int indice)
+        private void DibujarArreglo(int[] circulo, int indice, int apunta)
         {
-            
+
             Console.Clear();
             imprimirTitulo();
             Console.SetCursorPosition(0, 4);
 
+            String texto;
+
             for (int i = 0; i < circulo.Length; i++)
             {
+                if (indice == i  && apunta == 9999)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    texto = "<- Disparando";
+                }
+                else
+                if (indice == i)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    texto = "<- Apuntando " + (apunta + 1);
+                }
+                else if (circulo[i] == 1)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    texto = "";
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    texto = "<- Muerto    ";
+                }
 
-                if (indice == i) Console.ForegroundColor = ConsoleColor.Yellow;
-                else if (circulo[i] == 1) Console.ForegroundColor = ConsoleColor.Green;
-                else Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("[" + i + "] = " + circulo[i]);
+                Console.WriteLine("[" + i + "] = " + circulo[i] + "  " + texto);
 
             }
             Console.ResetColor();
